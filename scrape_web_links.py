@@ -83,7 +83,7 @@ for url_obj in url_objects:
 
             # Prepare GraphQL mutation to insert or update a record
             mutation = """
-            mutation InsertOrUpdateLink($link: String!, $id: String!) {
+            mutation InsertOrUpdateLink($link: String!, $id: uuid!) {
             insert_gt_scrape_posts_one(
                 object: {url: $link, gt_scrape_weblink_id: $id},
                 on_conflict: {constraint: gt_scrape_posts_pkey, update_columns: [url]}
@@ -104,6 +104,7 @@ for url_obj in url_objects:
 
             # Send the mutation request to the Hasura server
             mutation_response = requests.post(hasura_url, json=mutation_payload, headers=graphql_headers)
+            print(mutation_response.json())
 
         else:
             link = "Link not found"
